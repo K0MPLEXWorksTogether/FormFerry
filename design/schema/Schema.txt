@@ -1,0 +1,100 @@
+Table FormVersion {
+  id uuid [primary key]
+  formId uuid [not null, ref: > Forms.id]
+  versionCount int [not null, default: 0]
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table Users {
+  id uuid [primary key]
+  email varchar(255) [not null]
+  passwordHash text [not null]
+  status status [not null]
+  paymentProviderCustomerId varchar(255)
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table Forms {
+  id uuid [primary key]
+  userId uuid [not null, ref: > Users.id]
+  schema json [not null]
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table FormData {
+  id uuid [primary key]
+  formVersionId uuid [not null, ref: > FormVersion.id]
+  ciphertext blob [not null]
+  cipherkey blob [not null]
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table Plans {
+  id uuid [primary key]
+  name varchar(255) [not null]
+  quota int [not null]
+  price int [not null]
+  interval plan_interval [not null]
+  currency varchar(10) [not null, default: "USD"]
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table Subscriptions {
+  id uuid [primary key]
+  userId uuid [not null, ref: > Users.id]
+  planId uuid [not null, ref: > Plans.id]
+
+  status subscription_status [not null]
+  startDate timestamp [not null]
+  currentPeriodStart timestamp [not null]
+  currentPeriodEnd timestamp [not null]
+  cancelAt timestamp
+  canceledAt timestamp
+
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+  updatedAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table Payments {
+  id uuid [primary key]
+  subscriptionId uuid [not null, ref: > Subscriptions.id]
+
+  amount int [not null]
+  currency varchar(10) [not null, default: "USD"]
+  status payment_status [not null]
+  providerPaymentId varchar(255)
+
+  paidAt timestamp
+  createdAt timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Enum subscription_status {
+  active
+  past_due
+  canceled
+  unpaid
+}
+
+Enum payment_status {
+  pending
+  succeeded
+  failed
+  refunded
+}
+
+
+Enum status {
+  verified
+  unverified
+  suspended
+}
+
+Enum plan_interval {
+  month
+  year
+}

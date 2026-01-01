@@ -1,0 +1,2 @@
+1. Setup a mail server on your domain. 
+2. Setup an account on RabbitMQ with that mail.
