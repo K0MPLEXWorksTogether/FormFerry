@@ -1,0 +1,43 @@
+{
+  "name": "formferry-server",
+  "version": "1.0.0",
+  "description": "A form aggregator with server-side encryption, form versions and a generous free tier. ",
+  "keywords": [
+    "express",
+    "html"
+  ],
+  "homepage": "https://github.com/K0MPLEXWorksTogether/FormFerry#readme",
+  "bugs": {
+    "url": "https://github.com/K0MPLEXWorksTogether/FormFerry/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/K0MPLEXWorksTogether/FormFerry.git"
+  },
+  "license": "ISC",
+  "author": "Abhiram Mangipudi",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx tsc && doppler run -- node dist/src/index.js",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
+    "prisma": "^7.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.2.0",
+    "argon2": "^0.44.0",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "lovely-logs": "^2.7.2",
+    "redis": "^5.10.0"
+  }
+}
